@@ -1,0 +1,52 @@
+﻿@model IEnumerable<LibraryApp.Models.Loan>
+
+@{
+    ViewData["Title"] = "Loans";
+}
+
+<h1>Loans list</h1>
+
+<p>
+    <a asp-action="Create">Create New Loan</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Book
+            </th>
+            <th>
+                User
+            </th>
+            <th>
+                Loan date
+            </th>
+            <th>
+                Return date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item?.Book.Title
+            </td>
+            <td>
+                @item?.User.FirstName @item?.User.LastName
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
