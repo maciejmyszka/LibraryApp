@@ -1,5 +1,6 @@
 ﻿using LibraryApp.Data;
 using LibraryApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,6 +40,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: BookController/Create
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Create()
         {
             var authors = _context.Authors.Select(a => new SelectListItem
@@ -68,6 +70,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: BookController/Edit/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Edit(int id)
         {
             var current = _context.Books.Find(id);
@@ -101,6 +104,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: BookController/Delete/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Delete(int id)
         {
             var current = _context.Books.Find(id);

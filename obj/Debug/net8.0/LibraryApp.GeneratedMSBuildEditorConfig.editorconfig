@@ -114,6 +114,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicmFyeUFwcFVzZXJcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/MaCiEjXD/source/repos/LibraryApp/LibraryApp/Views/LibraryAppUser/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicmFyeUFwcFVzZXJcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/MaCiEjXD/source/repos/LibraryApp/LibraryApp/Views/LibraryAppUser/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicmFyeUFwcFVzZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -136,6 +140,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/MaCiEjXD/source/repos/LibraryApp/LibraryApp/Views/Loan/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9hblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MaCiEjXD/source/repos/LibraryApp/LibraryApp/Views/Loan/MyLoans.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9hblxNeUxvYW5zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/MaCiEjXD/source/repos/LibraryApp/LibraryApp/Views/Shared/Error.cshtml]

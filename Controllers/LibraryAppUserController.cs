@@ -24,19 +24,27 @@ namespace LibraryApp.Controllers
         public async Task<IActionResult> Index()
         {
             var users = _userManager.Users.ToList();
-            var usersWithRoles = new List<UserWithRolesModel>();
-            
-            foreach(var user in users)
+            var usersWithRoles = new List<UserWithRoles>();
+
+            var rolesOptions = _roleManager.Roles.Select(a => new SelectListItem
+            {
+                Value = a.Id,
+                Text = a.Name,
+            }).ToList();
+
+            foreach (var user in users)
             {
                 var roles = await _userManager.GetRolesAsync(user);
+                var currentRole = rolesOptions.Find(x => x.Text == roles[0]);
 
-                usersWithRoles.Add(new UserWithRolesModel
+                usersWithRoles.Add(new UserWithRoles
                 {
                     Id = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Roles = string.Join(", ", roles)
+                    RoleId = currentRole.Value,
+                    RoleName = currentRole.Text
                 });
             }
 
@@ -49,12 +57,21 @@ namespace LibraryApp.Controllers
             var current = _userManager.Users.ToList().Find(x => x.Id == id);
             var roles = await _userManager.GetRolesAsync(current);
 
-            var currentWithRole = new UserWithRolesModel {
+            var rolesOptions = _roleManager.Roles.Select(a => new SelectListItem
+            {
+                Value = a.Id,
+                Text = a.Name,
+            }).ToList();
+
+            var currentRole = rolesOptions.Find(x => x.Text == roles[0]);
+
+            var currentWithRole = new UserWithRoles {
                 Id = current.Id,
                 Email = current.Email,
                 FirstName = current.FirstName,
                 LastName = current.LastName,
-                Roles = string.Join(", ", roles)
+                RoleId = currentRole.Value,
+                RoleName = currentRole.Text
             };
 
             return View(currentWithRole);
@@ -105,26 +122,66 @@ namespace LibraryApp.Controllers
 
         // GET: LibraryAppUserController/Edit/5
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            var current = _userManager.Users.ToList().Find(x => x.Id == id);
+            var roles = await _userManager.GetRolesAsync(current);
+
+            var rolesOptions = _roleManager.Roles.Select(a => new SelectListItem
+            {
+                Value = a.Id,
+                Text = a.Name,
+            }).ToList();
+
+            var currentRole = rolesOptions.Find(x => x.Text == roles[0]);
+
+            var currentWithRole = new UserWithRoles
+            {
+                Id = current.Id,
+                Email = current.Email,
+                FirstName = current.FirstName,
+                LastName = current.LastName,
+                RoleId = currentRole.Value
+            };
+
+            ViewBag.Roles = rolesOptions;
+
+            return View(currentWithRole);
         }
 
         // POST: LibraryAppUserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string id, UserWithRoles user)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var currentUser = await _userManager.FindByIdAsync(id);
+                currentUser.FirstName = user.FirstName;
+                currentUser.LastName = user.LastName;
+                currentUser.Email = user.Email;
+
+                var currentRoles = await _userManager.GetRolesAsync(currentUser);
+
+                var selectedRoles = _roleManager.Roles.ToList().Where(role => role.Id == user.RoleId).Select(role => role.Name);
+
+                var updateResult = await _userManager.UpdateAsync(currentUser);
+                var addResult = await _userManager.AddToRolesAsync(currentUser, selectedRoles);
+                var removeResult = await _userManager.RemoveFromRolesAsync(currentUser, currentRoles);
+
+                if (updateResult.Succeeded && addResult.Succeeded && removeResult.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View();
             }
             catch
             {
                 return View();
             }
         }
-
+         
         // GET: LibraryAppUserController/Delete/5
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)

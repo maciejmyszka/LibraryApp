@@ -1,6 +1,5 @@
 ﻿using LibraryApp.Areas.Identity.Data;
 using LibraryApp.Data;
-using LibraryApp.Migrations;
 using LibraryApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApp.Controllers
 {
-    [Authorize(Roles = "Admin,Employee")]
     public class LoanController : Controller
     {
         private readonly LibraryAppContext _context;
@@ -23,7 +21,17 @@ namespace LibraryApp.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = "Admin,Employee,User")]
+        public async Task<ActionResult> MyLoans()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var results = _context.Loans.Include(f => f.User).Include(f => f.Book).ToList().Where(x => x.UserId == user.Id);
+
+            return View(results);
+        }
+
         // GET: LoanController
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Index()
         {
             var results = _context.Loans.Include(f => f.User).Include(f => f.Book).ToList();
@@ -31,6 +39,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: LoanController/Details/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Details(int id)
         {
             var current = _context.Loans.Find(id);
@@ -48,6 +57,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: LoanController/Create
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Create()
         {
             var books = _context.Books.Where(a => a.IsAvailable).Select(a => new SelectListItem
@@ -93,6 +103,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: LoanController/Edit/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Edit(int id)
         {
             var current = _context.Loans.Find(id);
@@ -144,6 +155,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: LoanController/Delete/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Delete(int id)
         {
             var current = _context.Loans.Find(id);

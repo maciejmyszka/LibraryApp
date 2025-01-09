@@ -24,7 +24,7 @@
 
             <div class="form-group">
                 <label asp-for="LoanDate" class="control-label">Loan Date</label>
-                <input asp-for="LoanDate" class="form-control" />
+                <input asp-for="LoanDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
                 <span asp-validation-for="LoanDate" class="text-danger"></span>
             </div>
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LibraryApp.Models.UserWithRolesModel>
+﻿@model IEnumerable<LibraryApp.Models.UserWithRoles>
 
 @{
     ViewData["Title"] = "Users";
@@ -12,9 +12,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Email</th>
             <th>Name</th>
             <th>Surname</th>
+            <th>Email</th>
             <th>Role</th>
             <th></th>
         </tr>
@@ -33,7 +33,7 @@
                     @Html.DisplayFor(modelItem => user.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => user.Roles)
+                    @Html.DisplayFor(modelItem => user.RoleName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |

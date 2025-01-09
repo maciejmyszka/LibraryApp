@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using LibraryApp.Data;
 using LibraryApp.Areas.Identity.Data;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("LibraryAppContextConnection");
 
@@ -14,6 +15,8 @@ builder.Services.AddDefaultIdentity<LibraryAppUser>(options => options.SignIn.Re
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -25,9 +28,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Library Management API v1");
+    });
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.MapControllers();
 app.UseRouting();
 
 app.UseAuthorization();
