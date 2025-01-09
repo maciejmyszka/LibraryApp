@@ -1,6 +1,6 @@
 # LibraryApp
 
-LibraryApp to system zarz¹dzania bibliotek¹ stworzony w technologii **ASP.NET Core**, umo¿liwiaj¹cy zarz¹dzanie ksi¹¿kami, autorami i wypo¿yczeniami.
+LibraryApp to system zarz¹dzania bibliotek¹ stworzony w technologii **ASP.NET Core**, umo¿liwiaj¹cy zarz¹dzanie ksi¹¿kami, autorami, wypo¿yczeniami i u¿ytkownikami.
 
 ---
 
